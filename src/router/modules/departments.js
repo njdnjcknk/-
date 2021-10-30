@@ -5,6 +5,7 @@ export default {
   component: Layout, // 组件
   children: [{
     path: '', // 二级路由
+    name:'departments',
     component: () => import('@/views/departments'),
     meta: {
       title: '组织架构管理', icon: 'tree'

@@ -8,6 +8,36 @@ function resolve(dir) {
 
 const name = defaultSettings.title || 'vue Admin Template' // page title
 
+let cdn={css:[],js:[]}
+let isProd=process.env.NODE_ENV==='production'
+let externals = {}
+if (isProd) {
+  // 如果是生产环境 就排除打包 否则不排除
+  externals ={
+    // 键：值
+    // 包名：cdn资源全局变量
+    'vue':'Vue',
+    'echarts':'echarts',
+    'vur-router':'Vue-Router',
+    'xlsx':'XLSX',
+    'element-ui':'ELEMENT',
+    'vuex':'Vuex'
+  }
+  cdn = {
+    css: [
+      'https://unpkg.com/element-ui/lib/theme-chalk/index.css' // 提前引入elementUI样式
+    ], // 放置css文件目录
+    js: [
+      'https://unpkg.com/vue/dist/vue.js', // vuejs
+      'https://cdn.bootcdn.net/ajax/libs/vue-router/3.0.6/vue-router.min.js', // vue-router
+      'https://unpkg.com/element-ui/lib/index.js', // element
+      'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/xlsx.full.min.js', // xlsx 相关
+      'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/jszip.min.js', // xlsx 相关
+      'https://cdn.bootcdn.net/ajax/libs/vuex/3.1.0/vuex.min.js', // vuex
+      'https://cdn.bootcdn.net/ajax/libs/echarts/5.1.2/echarts.min.js' // echarts
+    ] // 放置js文件目录
+  }
+}
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
@@ -24,7 +54,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: process.env.NODE_ENV=== 'production' ? './': '/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -55,10 +85,17 @@ module.exports = {
     resolve: {
       alias: {
         '@': resolve('src')
-      }
-    }
+      },
+      // 排除项配置（外部配置）
+     
+    },
+    externals:externals
   },
   chainWebpack(config) {
+    config.plugin('html').tap(args => {
+      args[0].cdn = cdn
+      return args
+    })
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {
@@ -67,7 +104,7 @@ module.exports = {
         // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
         fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
         include: 'initial'
-      }
+      },
     ])
 
     // when there are many pages, it will cause too many meaningless requests

@@ -69,6 +69,7 @@
               type="text"
               size="small"
               @click="$router.push(`/employees/detail/${row.id}`)"
+              :disabled="!checkPermission('employess-edit')"
               >查看</el-button
             >
             <el-button type="text" size="small">转正</el-button>

@@ -152,7 +152,7 @@ export default {
         this.loading = true
         await this.$store.dispatch('user/login', this.loginForm)
         // 登录成功跳转到主页
-        this.$router.push(this.redirect || '/')
+        this.$router.push( '/')
       } catch (error) {
         console.log(error)
       }

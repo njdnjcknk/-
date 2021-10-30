@@ -23,6 +23,7 @@
             <!-- 具名插槽 -->
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="add"
+              :disabled="!checkPermission('POINT-USER-UPDATE')"
                 >添加子部门</el-dropdown-item
               >
               <el-dropdown-item @click.native="edit" v-if="!isRoot"

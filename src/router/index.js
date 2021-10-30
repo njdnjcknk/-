@@ -12,6 +12,7 @@ import attendancesRouter from './modules/attendances'
 import salarysRouter from './modules/salarys'
 import settingsRouter from './modules/settings'
 import socialsRouter from './modules/socials'
+import user from './modules/user'
 
 // 动态路由
 export const asyncRoutes = [
@@ -22,7 +23,8 @@ export const asyncRoutes = [
   attendancesRouter,
   salarysRouter,
   settingsRouter,
-  socialsRouter
+  socialsRouter,
+  user
 ]
 
 /* Layout */
@@ -69,6 +71,7 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
+    name:'Dashboard',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
@@ -86,13 +89,13 @@ export const constantRoutes = [
     }]
   },
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  // mode: 'history', // require service support//默认是hash模式
   scrollBehavior: () => ({ y: 0 }),
-  routes: [...constantRoutes, ...asyncRoutes]
+  routes: [...constantRoutes]
 })
 
 const router = createRouter()
