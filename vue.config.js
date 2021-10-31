@@ -18,7 +18,7 @@ if (isProd) {
     // 包名：cdn资源全局变量
     'vue':'Vue',
     'echarts':'echarts',
-    'vur-router':'Vue-Router',
+    'vue-router':'VueRouter',
     'xlsx':'XLSX',
     'element-ui':'ELEMENT',
     'vuex':'Vuex'
